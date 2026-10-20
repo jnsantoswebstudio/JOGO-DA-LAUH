@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#100d27" />
+  <meta name="description" content="Uma aventura feita para Lauana. Explore Monster High, descubra Skull Shores e mergulhe no Reino das Marés." />
+  <title>Monster High: O Reino das Marés da Lauana</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="site-shell">
+    <header class="masthead">
+      <div class="masthead-brand">
+        <div class="brand-emblem" aria-hidden="true">✦</div>
+        <div>
+          <p class="eyebrow">UMA AVENTURA FEITA PARA</p>
+          <div class="brand-title">LAUANA <span class="brand-sparkle">✧</span></div>
+        </div>
+      </div>
+      <div class="masthead-actions">
+        <span class="mini-label"><span class="online-dot"></span> EDIÇÃO ESPECIAL</span>
+        <button class="icon-button" id="soundBtn" aria-label="Ativar ou desativar sons" title="Som">♫</button>
+        <button class="icon-button" id="fullscreenBtn" aria-label="Tela cheia" title="Tela cheia">⛶</button>
+      </div>
+    </header>
+
+    <main class="game-layout">
+      <div class="game-column">
+        <div class="game-frame" id="gameFrame">
+          <canvas id="gameCanvas" width="960" height="540" aria-label="Área jogável do Reino das Marés" tabindex="0"></canvas>
+          <div class="vignette" aria-hidden="true"></div>
+          <div class="screen-grain" aria-hidden="true"></div>
+          <div class="game-hud hidden" id="hud">
+            <div class="hud-left">
+              <div class="hud-life" id="lifeLabel" aria-label="Vidas">♥ ♥ ♥</div>
+              <div class="hud-location" id="locationLabel">MONSTER HIGH</div>
+            </div>
+            <div class="hud-right">
+              <div class="hud-counter"><span>✧</span> <span id="pearlsLabel">000</span></div>
+              <div class="hud-counter" id="itemCounter"><span>◆</span> <span id="itemsLabel">0/3</span></div>
+              <button id="pauseBtn" class="hud-pause" title="Pausar" aria-label="Pausar">Ⅱ</button>
+            </div>
+          </div>
+          <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+          <div class="dialogue hidden" id="dialogue" role="dialog" aria-live="polite">
+            <div class="dialogue-avatar" id="dialogueAvatar">✦</div>
+            <div class="dialogue-content"><div class="dialogue-name" id="dialogueName"></div><div class="dialogue-text" id="dialogueText"></div><div class="dialogue-tip">ENTER / E / TOQUE PARA CONTINUAR →</div></div>
+            <button id="dialogueNext" aria-label="Avançar diálogo" class="dialogue-next">›</button>
+          </div>
+          <div class="overlay" id="mainOverlay">
+            <div class="cover-mark"><span>✦</span> MONSTER HIGH <span>✦</span></div>
+            <div class="cover-center">
+              <div class="cover-pretitle">UMA AVENTURA ALÉM DAS ONDAS</div>
+              <h1>O REINO<br/>DAS <em>MARÉS</em></h1>
+              <div class="cover-ribbon">DA LAUANA ♡</div>
+              <p>Um segredo nasceu no oceano. E só uma garota extraordinária pode descobrir o que as marés escondem.</p>
+              <div class="cover-buttons">
+                <button id="startBtn" class="primary-btn">✦ &nbsp; COMEÇAR AVENTURA</button>
+                <button id="continueBtn" class="secondary-btn" hidden>↗ &nbsp; CONTINUAR JOGO</button>
+              </div>
+            </div>
+            <span class="cover-note">FAN GAME PARTICULAR • FEITO COM CARINHO ♡</span>
+          </div>
+          <div class="overlay-panel hidden" id="pauseOverlay">
+            <div class="panel-card">
+              <div class="panel-eyebrow">UMA PEQUENA PAUSA</div>
+              <h2>Até monstros descansam ♡</h2>
+              <p id="pauseObjective">Explore o mundo, colete itens e encontre os portais.</p>
+              <div class="panel-actions">
+                <button id="resumeBtn" class="primary-btn">▶ &nbsp; VOLTAR AO JOGO</button>
+                <button id="restartStageBtn" class="secondary-btn">↻ &nbsp; REINICIAR FASE</button>
+                <button id="menuBtn" class="secondary-btn">⌂ &nbsp; MENU INICIAL</button>
+              </div>
+            </div>
+          </div>
+          <div class="overlay-panel hidden" id="characterOverlay">
+            <div class="roster-card">
+              <div class="roster-heading"><div><div class="panel-eyebrow">SUA EQUIPE MONSTRUOSA</div><h2>Escolha sua personagem</h2></div><button id="rosterCloseBtn" class="icon-button" aria-label="Fechar personagens">✕</button></div>
+              <p>Troque de personagem durante a aventura. Cada uma tem um poder diferente!</p>
+              <div class="roster-grid" id="rosterGrid"></div>
+            </div>
+          </div>
+          <div class="overlay-panel hidden" id="memoryOverlay">
+            <div class="memory-card">
+              <div class="panel-eyebrow">UM DESAFIO EXTRA DA MONSTER HIGH</div>
+              <h2>Memória das Conchas 🐚</h2>
+              <p>Encontre os seis pares escondidos e ganhe pérolas mágicas!</p>
+              <div class="memory-stats" id="memoryStatus">0/6 PARES ENCONTRADOS</div>
+              <div class="memory-grid" id="memoryGrid"></div>
+              <button id="memoryExit" class="secondary-btn">← VOLTAR À ESCOLA</button>
+            </div>
+          </div>
+          <div class="overlay-panel hidden" id="endingOverlay">
+            <div class="ending-card">
+              <div class="ending-hearts">♡ ✦ ♡</div>
+              <div class="panel-eyebrow">O CORAÇÃO DO OCEANO FOI SALVO</div>
+              <h2>Para você, <em>Lauana</em></h2>
+              <p>De todas as aventuras que a vida poderia me dar, a minha favorita é viver uma história com você.</p>
+              <p class="ending-signature">Você é a magia mais bonita do meu mundo. Eu te amo! ♡</p>
+              <div class="ending-stats" id="endingStats"></div>
+              <div class="panel-actions"><button id="returnSchoolBtn" class="primary-btn">✦ &nbsp; CONTINUAR EXPLORANDO</button><button id="replayBtn" class="secondary-btn">↻ &nbsp; REJOGAR A AVENTURA</button></div>
+            </div>
+          </div>
+        </div>
+        <div class="touch-controls" id="touchControls" aria-label="Controles de toque">
+          <div class="touch-cluster touch-dpad">
+            <button data-control="up" aria-label="Cima" class="touch-key up-key">▲</button>
+            <div class="touch-dpad-row"><button data-control="left" aria-label="Esquerda" class="touch-key">◀</button><span class="dpad-center">✦</span><button data-control="right" aria-label="Direita" class="touch-key">▶</button></div>
+            <button data-control="down" aria-label="Baixo" class="touch-key down-key">▼</button>
+          </div>
+          <div class="touch-cluster touch-actions">
+            <button data-action="roster" class="touch-action touch-switch"><span>♧</span><small>TROCAR</small></button>
+            <button data-control="special" class="touch-action touch-special"><span>✦</span><small>PODER</small></button>
+            <button data-control="attack" class="touch-action touch-attack"><span>⚔</span><small>ATACAR</small></button>
+            <button data-control="jump" class="touch-action touch-jump"><span>↑</span><small>PULAR</small></button>
+            <button data-control="interact" class="touch-action touch-interact"><span>♡</span><small>FALAR</small></button>
+          </div>
+        </div>
+        <div class="below-bar"><span><span class="star-icon">✧</span> ESCOLA · PRAIA · OCEANO</span><span id="saveIndicator">PROGRESSO SALVO AUTOMATICAMENTE</span></div>
+      </div>
+      <aside class="sidebar">
+        <div class="sidebar-card quest-card"><div class="sidebar-eyebrow">✧ MISSÃO ATUAL</div><h3 id="questTitle">A aventura começa aqui</h3><p id="questDescription">Descubra os segredos das marés em uma aventura feita para Lauana.</p><div class="quest-progress"><span id="questProgressText">PRONTA PARA JOGAR?</span><div class="progress-track"><div id="questProgressBar" class="progress-fill"></div></div></div></div>
+        <button id="rosterBtn" class="roster-button"><span class="roster-icon">✦</span><span><strong id="activeCharacter">LAUANA</strong><small id="activePower">PODER: MARÉ PROTETORA</small></span><span class="roster-arrow">→</span></button>
+        <div class="sidebar-card chapters-card"><div class="sidebar-eyebrow">↗ SEUS DESTINOS</div><div class="chapter" id="chapterSchool"><div class="chapter-index">01</div><div><strong>Monster High</strong><small>O começo de tudo</small></div><span class="chapter-status">●</span></div><div class="chapter" id="chapterBeach"><div class="chapter-index">02</div><div><strong>Skull Shores</strong><small>A praia assombrada</small></div><span class="chapter-status">○</span></div><div class="chapter" id="chapterReef"><div class="chapter-index">03</div><div><strong>Great Scarrier Reef</strong><small>O oceano encantado</small></div><span class="chapter-status">○</span></div></div>
+        <div class="sidebar-card how-card"><div class="sidebar-eyebrow">⌨ COMO JOGAR</div><div class="key-row"><span>Andar / Nadar</span><b>W A S D / ← →</b></div><div class="key-row"><span>Pular</span><b>ESPAÇO</b></div><div class="key-row"><span>Atacar</span><b>J / Z</b></div><div class="key-row"><span>Poder</span><b>K / X</b></div><div class="key-row"><span>Interagir</span><b>E / ENTER</b></div><div class="key-row"><span>Personagens</span><b>Q</b></div><div class="key-row"><span>Pausar</span><b>ESC</b></div><p class="how-hint">No celular, use os botões que aparecem abaixo do jogo. Na horizontal fica melhor! ♡</p></div>
+      </aside>
+    </main>
+    <footer><span>FEITO ESPECIALMENTE PARA LAUANA ♡</span><span>PROJETO NÃO OFICIAL DE FÃ • SEM VÍNCULO COM A MATTEL</span></footer>
+  </div>
+  <script src="game.js" defer></script>
+</body>
+</html>
